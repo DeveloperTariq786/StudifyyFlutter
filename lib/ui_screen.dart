@@ -14,19 +14,21 @@ class UiHelper {
     );
   }
   static customButton(VoidCallback voidCallback, String text) {
-    return SizedBox(
-      height: 50,
-      width: 320,
-      child: ElevatedButton(
-        onPressed: () {
-          voidCallback();
-        },
-        style: ElevatedButton.styleFrom(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25))),
-        child: Text(
-          text,
-          style: const TextStyle(color: Colors.white, fontSize: 20),
+    return Center(
+      child: SizedBox(
+        height: 40,
+        width: 300,
+        child: ElevatedButton(
+          onPressed: () {
+            voidCallback();
+          },
+          style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25))),
+          child: Text(
+            text,
+            style: const TextStyle(color: Colors.orange, fontSize: 18),
+          ),
         ),
       ),
     );

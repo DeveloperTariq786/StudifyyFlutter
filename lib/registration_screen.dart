@@ -1,15 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:studifyy/example_file.dart';
 import 'package:studifyy/ui_screen.dart';
 import 'home_screen.dart';
-import 'login_screen.dart';
+
 class Registration extends StatefulWidget {
   const Registration({super.key});
   @override
   State<StatefulWidget> createState() => RegistrationScreenState();
 }
-class RegistrationScreenState extends State<Registration>{
+
+class RegistrationScreenState extends State<Registration> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   signUp(String email, String password) async {
@@ -18,8 +20,7 @@ class RegistrationScreenState extends State<Registration>{
           msg: "Please Enter required Credential!!",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          fontSize: 16);
+          fontSize: 14);
     } else {
       UserCredential? usercredential;
       try {
@@ -34,7 +35,6 @@ class RegistrationScreenState extends State<Registration>{
             msg: "$exp",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
             fontSize: 16);
       }
     }
@@ -43,47 +43,65 @@ class RegistrationScreenState extends State<Registration>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-      ),
-      body: Center(
-        child: SizedBox(
-          width: 400,
-          child: Column(
-            children: [
-              UiHelper.customTextFeild(email, "Enter Email",false),
-              UiHelper.customTextFeild(
-                  password, "Enter Password", false),
-              const SizedBox(
-                height: 30,
+        body: Center(
+      child: SizedBox(
+        width: 400,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(
+              height: 20,
+            ),
+            const Center(
+              child: Text(
+                "SIGN UP",
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
-              UiHelper.customButton(() {
-                signUp(email.text.toString(), password.text.toString());
-              }, "SignUp"),
-              const SizedBox(height: 30),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    "Already have an Account??",
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const LoginScreen()));
-                      },
-                      child: const Text(
-                        "SignUp",
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w300),
-                      ))
-                ],
-              )
-            ],
-          ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            const Text(
+              "Email",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            TextFormField(
+              controller: email,
+              keyboardType: TextInputType.emailAddress,
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            const Text(
+              "Password",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            TextFormField(
+              controller: password,
+
+              obscureText: true,
+              validator: (value) {
+                if (value!.length < 6) {
+                  return "Password must be at least 6 characters long.";
+                }
+                return null;
+              },
+            ),
+            const SizedBox(
+              height: 24,
+            ),
+            UiHelper.customButton(() {
+              signUp(email.text.toString(), password.text.toString());
+            }, "Register")
+          ],
         ),
       ),
-    );
+    ));
   }
 }
