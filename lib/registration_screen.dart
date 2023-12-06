@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:studifyy/example_file.dart';
 import 'package:studifyy/ui_screen.dart';
 import 'home_screen.dart';
+import 'login_screen.dart';
 
 class Registration extends StatefulWidget {
   const Registration({super.key});
@@ -29,6 +30,7 @@ class RegistrationScreenState extends State<Registration> {
             .then((value) {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => const HomeScreen()));
+          return null;
         });
       } on FirebaseAuthException catch (exp) {
         Fluttertoast.showToast(
@@ -63,10 +65,7 @@ class RegistrationScreenState extends State<Registration> {
             ),
             const Text(
               "Email",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
-            ),
-            const SizedBox(
-              height: 10,
+              style: TextStyle(fontSize: 14),
             ),
             TextFormField(
               controller: email,
@@ -77,14 +76,10 @@ class RegistrationScreenState extends State<Registration> {
             ),
             const Text(
               "Password",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
-            ),
-            const SizedBox(
-              height: 10,
+              style: TextStyle(fontSize: 16),
             ),
             TextFormField(
               controller: password,
-
               obscureText: true,
               validator: (value) {
                 if (value!.length < 6) {
@@ -94,11 +89,29 @@ class RegistrationScreenState extends State<Registration> {
               },
             ),
             const SizedBox(
-              height: 24,
+              height: 20,
             ),
             UiHelper.customButton(() {
               signUp(email.text.toString(), password.text.toString());
-            }, "Register")
+            }, "Register"),
+            const SizedBox(height: 20,),
+            Row(
+              children: [
+                const Text(
+                  "Already have an Account?",
+                  style: TextStyle(fontSize: 14),
+                ),
+                TextButton(
+                    onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>const LoginScreen()));
+                    },
+                    child: const Text(
+                      "Sign In",
+                      style:
+                          TextStyle(fontSize: 14,fontWeight: FontWeight.w200),
+                    ))
+              ],
+            ),
           ],
         ),
       ),
