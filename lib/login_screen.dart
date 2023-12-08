@@ -47,79 +47,81 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Center(
-      child: SizedBox(
-        width: 400,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(
-              height: 10,
-            ),
-            Center(
-              child: SizedBox(
-                  height: 100,
-                  width: 100,
-                  child: Image.asset("assets/images/image1.png")),
-            ),
-            const Text(
-              "Empowering Success: A guide by students for students",
-              style: TextStyle(fontSize: 16, fontFamily: "CustomFonts")
-            ),
-            const SizedBox(
-              height: 40,
-            ),
-            const Text(
-              "Email",
-              style: TextStyle(fontSize: 14),
-            ),
-
-            TextFormField(
-              controller: email,
-              keyboardType: TextInputType.emailAddress,
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            const Text(
-              "Password",
-              style: TextStyle(fontSize: 14),
-            ),
-
-            TextFormField(
-              controller: password,
-              obscureText: true,
-              validator: (value) {
-                if (value!.length < 6) {
-                  return "Password must be at least 6 characters long.";
-                }
-                return null;
-              },
-            ),
-            const SizedBox(
-              height: 24,
-            ),
-            UiHelper.customButton(() {
-              login(email.text.toString(), password.text.toString());
-            }, "Login"),
-            const SizedBox(height: 30,),
-            Row(
-              children: [
-                const Text(
-                  "Don't have an Account?",
-                  style: TextStyle(fontSize: 14),
+      child: Padding(
+        padding: const EdgeInsets.only(top: 24,left: 16,right: 16),
+        child: SizedBox(
+          width: 400,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: SizedBox(
+                    height: 100,
+                    width: 100,
+                    child: Image.asset("assets/images/image1.png")),
+              ),
+              const Center(
+                child: Text(
+                  "Empowering Success: A guide by students for students",
+                  style: TextStyle(fontSize: 16, fontFamily: "CustomFonts")
                 ),
-                TextButton(
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>const Registration()));
-                    },
-                    child: const Text(
-                      "Sign up Now",
-                      style:
-                      TextStyle(fontSize: 14,fontWeight: FontWeight.w200),
-                    ))
-              ],
-            ),
-          ],
+              ),
+              const SizedBox(
+                height: 40,
+              ),
+              const Text(
+                "Email",
+                style: TextStyle(fontSize: 14),
+              ),
+
+              TextFormField(
+                controller: email,
+                keyboardType: TextInputType.emailAddress,
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              const Text(
+                "Password",
+                style: TextStyle(fontSize: 14),
+              ),
+
+              TextFormField(
+                controller: password,
+                obscureText: true,
+                validator: (value) {
+                  if (value!.length < 6) {
+                    return "Password must be at least 6 characters long.";
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+              UiHelper.customButton(() {
+                login(email.text.toString(), password.text.toString());
+              }, "Login"),
+              const SizedBox(height: 30,),
+              Row(
+                children: [
+                  const Text(
+                    "Don't have an Account?",
+                    style: TextStyle(fontSize: 14),
+                  ),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>const Registration()));
+                      },
+                      child: const Text(
+                        "Sign up Now",
+                        style:
+                        TextStyle(fontSize: 14,fontWeight: FontWeight.w100),
+                      ))
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     ));
