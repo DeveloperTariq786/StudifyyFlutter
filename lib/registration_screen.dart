@@ -5,6 +5,7 @@ import 'package:studifyy/ui_screen.dart';
 import 'firestore_data_fetching_class.dart';
 import 'home_screen.dart';
 import 'login_screen.dart';
+import 'main.dart';
 
 class Registration extends StatefulWidget {
   const Registration({super.key});
@@ -29,7 +30,7 @@ class RegistrationScreenState extends State<Registration> {
             .createUserWithEmailAndPassword(email: email, password: password)
             .then((value) {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const HomeScreen()));
+              MaterialPageRoute(builder: (context) => const ResponsiveLayout()));
           return null;
         });
       } on FirebaseAuthException catch (exp) {

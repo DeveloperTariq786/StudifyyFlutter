@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 class DropdownFirestore extends StatefulWidget {
   const DropdownFirestore({super.key});
   @override
@@ -41,8 +42,10 @@ class _DropdownFirestoreState extends State<DropdownFirestore> {
               //style: const TextStyle(fontFamily: "Analogist"),
                 items: dropdownItems,
                 onChanged: (value) {
-                  setState(() {
+                  setState(()  async {
+                    final SharedPreferences prefs = await SharedPreferences.getInstance();
                     _selectedProgram = value!;
+                    prefs.setString('Program', _selectedProgram);
                   });
                 },
               ),
