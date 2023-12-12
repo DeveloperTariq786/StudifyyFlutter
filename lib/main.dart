@@ -14,7 +14,6 @@ Future<void> main() async {
   );
   runApp(const ProviderScope(child: MyApp()));
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
@@ -30,7 +29,6 @@ class MyApp extends StatelessWidget {
         home: const ResponsiveLayout());
   }
 }
-
 class ResponsiveLayout extends StatelessWidget {
   const ResponsiveLayout({super.key});
   @override
