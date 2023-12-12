@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'firebase_options.dart';
+
 final selectedCourseProvider =
     StateProvider.autoDispose<Course?>((ref) => null);
 Future<void> main() async {
@@ -13,6 +14,7 @@ Future<void> main() async {
   );
   runApp(const ProviderScope(child: MyApp()));
 }
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
@@ -155,6 +157,14 @@ class DesktopDetailContent extends StatelessWidget {
               icon: Icon(Icons.note),
               label: Text('Notes'),
             ),
+            NavigationRailDestination(
+              icon: Icon(Icons.add),
+              label: Text('Notes'),
+            ),
+            NavigationRailDestination(
+              icon: Icon(Icons.share),
+              label: Text('Notes'),
+            ),
           ],
           selectedIndex: 0,
           onDestinationSelected: (index) {
@@ -200,6 +210,7 @@ class MobileDetailContent extends StatelessWidget {
             icon: Icon(Icons.note),
             label: 'Notes',
           ),
+
         ],
         currentIndex: 0,
         onTap: (index) {
