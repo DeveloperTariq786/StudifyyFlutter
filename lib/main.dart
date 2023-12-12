@@ -3,17 +3,16 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:studifyy/registration_screen.dart';
 import 'firebase_options.dart';
-
+final selectedCourseProvider =
+    StateProvider.autoDispose<Course?>((ref) => null);
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
@@ -38,7 +37,7 @@ class ResponsiveLayout extends StatelessWidget {
       builder: (context, sizingInformation) {
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Courses App'),
+            title: const Center(child: Text('Courses App')),
           ),
           body: sizingInformation.deviceScreenType == DeviceScreenType.desktop
               ? const DesktopLayout()
@@ -68,36 +67,16 @@ class DesktopLayout extends StatelessWidget {
     );
   }
 }
-class CourseList extends StatelessWidget {
+
+class CourseList extends ConsumerWidget {
   const CourseList({super.key});
-
   @override
-  Widget build(BuildContext context) {
-    return Container( color: Colors.orange,);
-  }
-}
-class CourseDetail extends StatelessWidget {
-  const CourseDetail({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container( color: Colors.indigo,);
-  }
-}
-
-
-
-/*class CourseList extends StatelessWidget {
-  const CourseList({super.key});
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         // Add your search bar here
         // ...
-
         // Fetch courses from Firestore
         StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
@@ -109,9 +88,7 @@ class CourseDetail extends StatelessWidget {
             if (!snapshot.hasData) {
               return const CircularProgressIndicator();
             }
-
             var courses = snapshot.data!.docs;
-
             return Expanded(
               child: ListView.builder(
                 itemCount: courses.length,
@@ -120,12 +97,8 @@ class CourseDetail extends StatelessWidget {
                   return ListTile(
                     title: Text(course.id),
                     onTap: () {
+                      ref.read(selectedCourseProvider.notifier).state = course;
                       // Navigate to course detail screen
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  CourseDetail(selectedCourse: course)));
                     },
                   );
                 },
@@ -138,38 +111,31 @@ class CourseDetail extends StatelessWidget {
   }
 }
 
-class CourseDetail extends StatelessWidget {
-  final Course? selectedCourse;
-
-  const CourseDetail({super.key, required this.selectedCourse});
-
+class CourseDetail extends ConsumerWidget {
+  const CourseDetail({super.key});
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedCourse = ref.watch(selectedCourseProvider);
     if (selectedCourse == null) {
       return const Center(
         child: Text('Select a course on the left to view details.'),
       );
     }
-      return Scaffold(
-        appBar: AppBar(
-          title: Text(selectedCourse!.id),
-        ),
-        body: ResponsiveBuilder(
-          builder: (context, sizingInformation) {
-            return sizingInformation.deviceScreenType == DeviceScreenType.desktop
-                ? DesktopDetailContent(selectedCourse: selectedCourse!)
-                : MobileDetailContent(selectedCourse: selectedCourse!);
-          },
-        ),
-      );
+    return Scaffold(
+      body: ResponsiveBuilder(
+        builder: (context, sizingInformation) {
+          return sizingInformation.deviceScreenType == DeviceScreenType.desktop
+              ? DesktopDetailContent(selectedCourse: selectedCourse)
+              : MobileDetailContent(selectedCourse: selectedCourse);
+        },
+      ),
+    );
   }
 }
 
 class DesktopDetailContent extends StatelessWidget {
   final Course selectedCourse;
-
   const DesktopDetailContent({super.key, required this.selectedCourse});
-
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -206,9 +172,7 @@ class DesktopDetailContent extends StatelessWidget {
 
 class MobileDetailContent extends StatelessWidget {
   final Course selectedCourse;
-
   const MobileDetailContent({super.key, required this.selectedCourse});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -216,7 +180,6 @@ class MobileDetailContent extends StatelessWidget {
         children: [
           // Add your search bar here
           // ...
-
           // Content
           Expanded(
             child: ContentBasedOnIndex(selectedIndex: 0),
@@ -249,9 +212,7 @@ class MobileDetailContent extends StatelessWidget {
 
 class ContentBasedOnIndex extends StatelessWidget {
   final int selectedIndex;
-
   const ContentBasedOnIndex({super.key, required this.selectedIndex});
-
   @override
   Widget build(BuildContext context) {
     // Adjust the content based on the selected index
@@ -266,7 +227,7 @@ class ContentBasedOnIndex extends StatelessWidget {
         return Container();
     }
   }
-}*/
+}
 
 class Course {
   final String id;
